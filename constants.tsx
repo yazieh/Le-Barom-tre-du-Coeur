@@ -18,7 +18,7 @@ export const PART1_QUESTIONS: QuestionMCQ[] = [
     question: "Tu as passé une excellente soirée avec tes amis sans ton/ta partenaire.",
     options: [
       { id: 'A', text: "Il/Elle est ravi(e) pour moi et veut que je raconte les détails.", score: 0 },
-      { id: 'B', text: "Il/Elle fait semblant d'être content(e) mais me lance des piques après.", score: 2 }, // Increased score for passive aggressive
+      { id: 'B', text: "Il/Elle fait semblant d'être content(e) mais me lance des piques après.", score: 2 },
       { id: 'C', text: "Il/Elle m'a envoyé des messages toute la soirée pour savoir quand je rentrais.", score: 2 },
       { id: 'D', text: "Il/Elle a eu un \"problème urgent\" pile au moment où je m'amusais.", score: 3 },
     ],
@@ -126,7 +126,8 @@ export const BADGES: BadgeResult[] = [
     color: "from-teal-400 to-emerald-600",
     iconName: 'Sun',
     minScore: 0,
-    maxScore: 15
+    maxScore: 15,
+    level: 'Sain'
   },
   {
     id: 'labyrinthe',
@@ -135,7 +136,8 @@ export const BADGES: BadgeResult[] = [
     color: "from-pink-400 to-rose-500",
     iconName: 'CloudFog',
     minScore: 16,
-    maxScore: 30
+    maxScore: 30,
+    level: 'Modéré'
   },
   {
     id: 'cage',
@@ -144,7 +146,8 @@ export const BADGES: BadgeResult[] = [
     color: "from-orange-400 to-red-600",
     iconName: 'Lock',
     minScore: 31,
-    maxScore: 45
+    maxScore: 45,
+    level: 'Toxique'
   },
   {
     id: 'vortex',
@@ -153,7 +156,8 @@ export const BADGES: BadgeResult[] = [
     color: "from-gray-700 to-black",
     iconName: 'Tornado',
     minScore: 46,
-    maxScore: 100 // High cap to catch everything
+    maxScore: 100, // High cap to catch everything
+    level: 'Dangereux'
   }
 ];
 

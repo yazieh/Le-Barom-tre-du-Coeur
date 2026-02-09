@@ -24,6 +24,7 @@ export interface BadgeResult {
   iconName: 'Sun' | 'CloudFog' | 'Lock' | 'Tornado';
   minScore: number;
   maxScore: number;
+  level: 'Sain' | 'Modéré' | 'Toxique' | 'Dangereux';
 }
 
 export type Phase = 'intro' | 'part1' | 'intermission' | 'part2' | 'calculating' | 'result';

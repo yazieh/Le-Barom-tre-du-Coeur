@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PART1_QUESTIONS, PART2_QUESTIONS, BADGES, getIcon } from './constants';
 import { Phase, BadgeResult } from './types';
 import { ProgressBar } from './components/ProgressBar';
 import { QuizMCQ } from './components/QuizMCQ';
 import { QuizSpectrum } from './components/QuizSpectrum';
-import { Heart, ArrowRight, RotateCcw, Sparkles, Scroll, Bird, Feather } from 'lucide-react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { Heart, ArrowRight, RotateCcw, Sparkles, Bird, Feather } from 'lucide-react';
 
 function App() {
   const [phase, setPhase] = useState<Phase>('intro');
@@ -19,11 +18,12 @@ function App() {
   const [finalResult, setFinalResult] = useState<BadgeResult | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Scroll to top on phase change, but not during question flips (handled by CSS)
   useEffect(() => {
-    if (phase !== 'result') {
+    if (phase !== 'result' && phase !== 'part1' && phase !== 'part2') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [phase, currentQuestionIndex]);
+  }, [phase]);
 
   const handleStart = () => {
     setPhase('part1');
@@ -34,6 +34,8 @@ function App() {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setScorePart1(prev => prev + score);
+    
+    // Slight delay to allow user to see selection
     setTimeout(() => {
         if (currentQuestionIndex < PART1_QUESTIONS.length - 1) {
           setCurrentQuestionIndex(prev => prev + 1);
@@ -54,6 +56,7 @@ function App() {
     setIsTransitioning(true);
     const points = val - 1; 
     setScorePart2(prev => prev + points);
+    
     setTimeout(() => {
         if (currentQuestionIndex < PART2_QUESTIONS.length - 1) {
           setCurrentQuestionIndex(prev => prev + 1);
@@ -78,16 +81,16 @@ function App() {
         setPhase('result');
         setAnimState('bird-flying');
         
-        // Timeline for bird animation
-        // 3s flight duration
+        // Revised Timeline for smoother bird animation
+        // Flight is 3.5s
         setTimeout(() => {
            setAnimState('bird-dropping');
-        }, 2500); 
+        }, 3000); 
 
-        // 1.5s drop duration
+        // Drop is 1.5s
         setTimeout(() => {
            setAnimState('grounded');
-        }, 4000);
+        }, 4500);
 
       }, 2500);
       return () => clearTimeout(timer);
@@ -118,6 +121,46 @@ function App() {
       setAnimState('reading');
   };
 
+  // --- COMPONENT: BOOK PAGE LAYOUT ---
+  const BookLayout = ({ children, title, progressCurrent, progressTotal }: { children: React.ReactNode, title: string, progressCurrent: number, progressTotal: number }) => (
+    <div className="min-h-screen bg-stone-100 flex items-center justify-center p-4 overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/wood-pattern.png')]">
+      <div className="book-perspective w-full max-w-5xl">
+        <div className="relative flex flex-col md:flex-row bg-[#fdf6e3] shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-lg overflow-hidden border-l-8 border-amber-900/40 min-h-[600px]">
+           {/* Left Page (Decorative) - Hidden on small screens */}
+           <div className="hidden md:flex md:w-1/2 p-12 flex-col justify-between border-r border-amber-900/10 relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/5 pointer-events-none"></div>
+              <div className="text-center opacity-40">
+                <div className="mx-auto w-16 h-16 border-2 border-amber-800 rounded-full flex items-center justify-center mb-4">
+                  <span className="font-serif font-bold text-amber-900 text-xl">{progressCurrent}</span>
+                </div>
+                <div className="h-px w-24 bg-amber-800 mx-auto"></div>
+              </div>
+              <div className="flex-1 flex items-center justify-center opacity-10">
+                <Heart className="w-48 h-48 text-rose-800" />
+              </div>
+              <div className="text-center font-serif text-xs text-amber-900/50 uppercase tracking-widest">
+                Le Baromètre du Cœur
+              </div>
+           </div>
+
+           {/* Right Page (Content) */}
+           <div className="w-full md:w-1/2 p-6 md:p-12 bg-[#fffdf5] relative">
+              <div className="absolute inset-0 bg-gradient-to-l from-transparent to-black/5 pointer-events-none"></div>
+              
+              <div className="mb-8">
+                 <ProgressBar current={progressCurrent} total={progressTotal} label={title} />
+              </div>
+
+              {/* Page Flip Animation Wrapper */}
+              <div key={currentQuestionIndex} className="book-page-wrapper page-flip-enter">
+                  {children}
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  );
+
   // --- RENDERERS ---
 
   if (phase === 'intro') {
@@ -126,7 +169,7 @@ function App() {
         {/* Decorative Background */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cupid.png')] opacity-5 pointer-events-none"></div>
         
-        <div className="max-w-3xl w-full relative z-10">
+        <div className="max-w-3xl w-full relative z-10 content-fade-in">
           <div className="animate-bounce mb-8 inline-block relative">
              <div className="absolute inset-0 blur-xl bg-rose-400/30 rounded-full animate-pulse"></div>
             <Heart className="w-24 h-24 text-rose-500 fill-rose-500 drop-shadow-xl relative z-10" />
@@ -155,12 +198,9 @@ function App() {
   if (phase === 'part1') {
     const question = PART1_QUESTIONS[currentQuestionIndex];
     return (
-      <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white flex flex-col items-center py-12 px-4">
-        <div className="w-full max-w-3xl">
-          <ProgressBar current={currentQuestionIndex + 1} total={PART1_QUESTIONS.length} label="Chapitre I : L'Ombre et la Lumière" />
-          <QuizMCQ data={question} onAnswer={handleAnswerPart1} disabled={isTransitioning} />
-        </div>
-      </div>
+      <BookLayout title="Chapitre I : L'Ombre et la Lumière" progressCurrent={currentQuestionIndex + 1} progressTotal={PART1_QUESTIONS.length}>
+         <QuizMCQ data={question} onAnswer={handleAnswerPart1} disabled={isTransitioning} />
+      </BookLayout>
     );
   }
 
@@ -168,7 +208,7 @@ function App() {
     return (
       <div className="min-h-screen bg-[#2e1065] flex flex-col items-center justify-center p-6 text-center text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-        <div className="z-10 max-w-2xl">
+        <div className="z-10 max-w-2xl content-fade-in">
             <Sparkles className="w-16 h-16 text-indigo-300 mx-auto mb-6 animate-spin-slow" />
             <h2 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-indigo-100">
                 Le Premier Voile est Levé
@@ -191,12 +231,9 @@ function App() {
   if (phase === 'part2') {
     const question = PART2_QUESTIONS[currentQuestionIndex];
     return (
-      <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white flex flex-col items-center py-12 px-4">
-        <div className="w-full max-w-3xl">
-          <ProgressBar current={currentQuestionIndex + 1} total={PART2_QUESTIONS.length} label="Chapitre II : La Résonance" />
+      <BookLayout title="Chapitre II : La Résonance" progressCurrent={currentQuestionIndex + 1} progressTotal={PART2_QUESTIONS.length}>
           <QuizSpectrum key={currentQuestionIndex} data={question} onAnswer={handleAnswerPart2} disabled={isTransitioning} />
-        </div>
-      </div>
+      </BookLayout>
     );
   }
 
@@ -216,8 +253,7 @@ function App() {
 
   if (phase === 'result' && finalResult) {
     const totalScore = scorePart1 + scorePart2;
-    const toxicPercentage = Math.round((totalScore / 70) * 100);
-    const healthyPercentage = 100 - toxicPercentage;
+    const toxicPercentage = Math.round((totalScore / 70) * 100); // Rough calc
     
     // Determine which "Letter" view we are in
     const isBirdSequence = ['bird-flying', 'bird-dropping'].includes(animState);
@@ -328,10 +364,16 @@ function App() {
     }
 
     // --- FINAL READING VIEW (THE LETTER) ---
-    // This replaces the old dashboard with a full-screen letter interface
     
+    // Scale indicator helper
+    const getScaleColor = (pct: number) => {
+        if(pct < 30) return 'bg-emerald-500';
+        if(pct < 60) return 'bg-amber-400';
+        return 'bg-red-600';
+    };
+
     return (
-      <div className="min-h-screen bg-rose-50 py-8 px-4 flex flex-col items-center justify-center relative bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] animate-[fadeIn_2s_ease-out]">
+      <div className="min-h-screen bg-rose-50 py-8 px-4 flex flex-col items-center justify-center relative bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] content-fade-in">
         
         {/* The Open Letter Parchment */}
         <div className="relative w-full max-w-4xl paper-texture shadow-[0_20px_60px_rgba(0,0,0,0.1)] p-8 md:p-16 transform rotate-[0.5deg] border border-stone-200">
@@ -356,6 +398,12 @@ function App() {
 
             {/* Body */}
             <div className="mb-12 relative">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                     <span className={`px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white shadow-sm ${finalResult.level === 'Sain' ? 'bg-emerald-500' : finalResult.level === 'Modéré' ? 'bg-amber-400' : 'bg-red-600'}`}>
+                        {finalResult.level}
+                     </span>
+                </div>
+
                 <h1 className="font-handwriting text-5xl md:text-6xl text-center text-rose-950 mb-8 drop-shadow-sm">
                     {finalResult.title}
                 </h1>
@@ -375,49 +423,24 @@ function App() {
                 </div>
             </div>
 
-            {/* Visual Data (Ink Style) */}
-            <div className="flex flex-col md:flex-row gap-12 items-center justify-center mb-12 border-t-2 border-b-2 border-amber-900/5 py-8">
+            {/* Intuitive Visual Scale */}
+            <div className="flex flex-col items-center justify-center mb-12 border-t-2 border-b-2 border-amber-900/5 py-8 w-full">
+                <span className="font-serif text-sm uppercase tracking-widest text-slate-500 mb-4">Niveau de Toxicité</span>
                 
-                {/* Ink Circle Chart */}
-                <div className="flex flex-col items-center">
-                    <div className="relative w-32 h-32">
-                        <ResponsiveContainer width="100%" height="100%">
-                           <PieChart>
-                             <Pie
-                               data={[
-                                   { value: healthyPercentage, color: '#059669' }, 
-                                   { value: toxicPercentage, color: '#be123c' }
-                               ]}
-                               cx="50%"
-                               cy="50%"
-                               innerRadius={40}
-                               outerRadius={55}
-                               dataKey="value"
-                               stroke="none"
-                             />
-                           </PieChart>
-                        </ResponsiveContainer>
-                        <div className="absolute inset-0 flex items-center justify-center font-serif font-bold text-lg text-amber-900">
-                           {healthyPercentage}%
-                        </div>
-                    </div>
-                    <span className="font-handwriting text-xl text-emerald-700 mt-2">Lumière</span>
+                <div className="w-full max-w-md relative h-8 bg-stone-200 rounded-full overflow-hidden shadow-inner flex">
+                    {/* The Scale Gradient */}
+                    <div className="w-1/3 h-full bg-emerald-200/50 flex items-center justify-center text-[10px] font-bold text-emerald-800 uppercase">Sain</div>
+                    <div className="w-1/3 h-full bg-amber-200/50 flex items-center justify-center text-[10px] font-bold text-amber-800 uppercase">Attention</div>
+                    <div className="w-1/3 h-full bg-red-200/50 flex items-center justify-center text-[10px] font-bold text-red-800 uppercase">Danger</div>
+                    
+                    {/* The Indicator Pin */}
+                    <div 
+                        className="absolute top-0 bottom-0 w-1 bg-slate-800 shadow-[0_0_10px_rgba(0,0,0,0.5)] z-10 transition-all duration-1000 ease-out"
+                        style={{ left: `${toxicPercentage}%` }}
+                    ></div>
                 </div>
-
-                <div className="h-16 w-px bg-amber-900/20 hidden md:block"></div>
-
-                {/* Ink Bar */}
-                <div className="w-full max-w-xs">
-                    <div className="flex justify-between font-handwriting text-xl text-rose-900 mb-2">
-                        <span>Toxicité Latente</span>
-                        <span>{toxicPercentage}%</span>
-                    </div>
-                    <div className="h-2 w-full bg-stone-200 rounded-full overflow-hidden">
-                        <div 
-                            className="h-full bg-rose-900/70 rounded-full"
-                            style={{ width: `${toxicPercentage}%` }}
-                        ></div>
-                    </div>
+                <div className="mt-2 font-handwriting text-xl text-rose-900">
+                    {toxicPercentage < 33 ? "Tu es en sécurité." : toxicPercentage < 66 ? "Prudence requise." : "Situation critique."}
                 </div>
             </div>
 
@@ -439,15 +462,29 @@ function App() {
 
         </div>
         
-        {/* Other Possible Paths (Small at bottom) */}
-        <div className="mt-12 w-full max-w-4xl text-center opacity-60 hover:opacity-100 transition-opacity">
+        {/* Other Possible Paths (Color Coded & Clear) */}
+        <div className="mt-12 w-full max-w-4xl text-center opacity-80 hover:opacity-100 transition-opacity">
             <p className="font-serif text-xs uppercase tracking-widest text-slate-500 mb-6">- Les autres chemins possibles -</p>
-            <div className="flex justify-center gap-4 flex-wrap">
-                {BADGES.filter(b => b.id !== finalResult.id).map(badge => (
-                    <div key={badge.id} className="bg-white/50 px-3 py-2 rounded border border-rose-100 text-xs font-serif text-slate-500 flex items-center gap-2">
-                         {getIcon(badge.iconName, "w-3 h-3")} {badge.title}
-                    </div>
-                ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {BADGES.filter(b => b.id !== finalResult.id).map(badge => {
+                     let levelColor = "text-slate-500";
+                     let borderColor = "border-slate-200";
+                     if(badge.level === 'Sain') { levelColor = "text-emerald-600"; borderColor = "border-emerald-200 bg-emerald-50"; }
+                     if(badge.level === 'Modéré') { levelColor = "text-amber-600"; borderColor = "border-amber-200 bg-amber-50"; }
+                     if(badge.level === 'Toxique') { levelColor = "text-orange-600"; borderColor = "border-orange-200 bg-orange-50"; }
+                     if(badge.level === 'Dangereux') { levelColor = "text-red-600"; borderColor = "border-red-200 bg-red-50"; }
+
+                     return (
+                        <div key={badge.id} className={`px-4 py-3 rounded border text-left flex flex-col gap-1 ${borderColor}`}>
+                            <div className="flex items-center gap-2 font-serif text-xs font-bold text-slate-700">
+                                {getIcon(badge.iconName, "w-4 h-4")} {badge.title}
+                            </div>
+                            <span className={`text-[10px] uppercase tracking-wider font-bold ${levelColor}`}>
+                                {badge.level}
+                            </span>
+                        </div>
+                     );
+                })}
             </div>
         </div>
 
