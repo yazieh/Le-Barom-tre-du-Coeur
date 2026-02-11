@@ -21,10 +21,10 @@ export interface BadgeResult {
     title: string;
     description: string;
     color: string;
-    iconName: 'Sun' | 'CloudFog' | 'Lock' | 'Tornado';
+    iconName: 'ShieldCheck' | 'Sun' | 'CloudFog' | 'Flame' | 'Lock' | 'Tornado';
     minScore: number;
     maxScore: number;
-    level: 'Sain' | 'Modéré' | 'Toxique' | 'Dangereux';
+    level: 'Blindé' | 'Sain' | 'Neutre' | 'Vulnérable' | 'Toxique' | 'Trés Toxique';
 }
 
 export type Phase = 'intro' | 'part1' | 'intermission' | 'part2' | 'calculating' | 'result';

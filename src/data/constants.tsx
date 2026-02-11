@@ -1,6 +1,6 @@
 import React from 'react';
 import { QuestionMCQ, QuestionSpectrum, BadgeResult } from '../types';
-import { Sun, CloudFog, Lock, Tornado } from 'lucide-react';
+import { ShieldCheck, Sun, CloudFog, Flame, Lock, Tornado } from 'lucide-react';
 
 export const READINESS_QUIZ: QuestionMCQ[] = [
     {
@@ -160,52 +160,74 @@ export const PART2_QUESTIONS: QuestionSpectrum[] = [
 
 export const BADGES: BadgeResult[] = [
     {
-        id: 'eden',
-        title: "L'Éden Lumineux",
-        description: "Ta relation est un espace de liberté. Tu respires, tu grandis et tu es respecté(e). C'est le modèle d'une relation saine.",
-        color: "from-teal-400 to-emerald-600",
-        iconName: 'Sun',
+        id: 'forteresse',
+        title: "La Forteresse Imprenable",
+        description: "Ton cœur est une citadelle. Tu sais exactement ce que tu mérites et tu ne laisseras personne franchir tes murs avec de fausses promesses. Les manipulateurs n'ont aucune chance face à toi — tu vois clair dans leur jeu avant même qu'il commence.",
+        color: "from-emerald-400 to-teal-600",
+        iconName: 'ShieldCheck',
         minScore: 0,
-        maxScore: 15,
+        maxScore: 11,
+        level: 'Blindé'
+    },
+    {
+        id: 'phare',
+        title: "Le Phare dans la Brume",
+        description: "Tu as une bonne vision de ce qu'est une relation saine. Tu sais poser des limites et reconnaître les signaux d'alarme. Quelques zones de flou persistent, mais dans l'ensemble, tu navigues en sécurité dans le monde amoureux.",
+        color: "from-teal-400 to-emerald-500",
+        iconName: 'Sun',
+        minScore: 12,
+        maxScore: 23,
         level: 'Sain'
     },
     {
-        id: 'labyrinthe',
-        title: "Le Labyrinthe Rose",
-        description: "C'est très romantique, mais attention à ne pas te perdre. La fusion est belle, mais ne laisse pas ton identité disparaître.",
-        color: "from-pink-400 to-rose-500",
+        id: 'brume',
+        title: "Le Cœur dans la Brume",
+        description: "Tu es quelqu'un de bien, peut-être un peu trop. Ta gentillesse et ton désir de plaire peuvent t'amener à excuser des comportements qui ne devraient pas l'être. Attention à ne pas confondre sacrifice et amour — tu mérites mieux que des miettes.",
+        color: "from-amber-300 to-yellow-500",
         iconName: 'CloudFog',
-        minScore: 16,
-        maxScore: 30,
-        level: 'Modéré'
+        minScore: 24,
+        maxScore: 35,
+        level: 'Neutre'
+    },
+    {
+        id: 'flamme',
+        title: "Le Papillon et la Flamme",
+        description: "Tu es attiré(e) par l'intensité, la passion dévorante, les montagnes russes émotionnelles. Ce que tu prends pour de l'amour fou pourrait bien être le début d'un piège. La vraie passion ne devrait pas te brûler les ailes.",
+        color: "from-orange-400 to-amber-600",
+        iconName: 'Flame',
+        minScore: 36,
+        maxScore: 47,
+        level: 'Vulnérable'
     },
     {
         id: 'cage',
         title: "La Cage Dorée",
-        description: "Attention ! La toxicité est présente, masquée par des preuves d'affection. Le contrôle n'est pas de l'amour, c'est une prison.",
-        color: "from-orange-400 to-red-600",
+        description: "Tu as tendance à accepter le contrôle déguisé en amour. Les chaînes les plus dangereuses sont celles qu'on prend pour des bijoux. Ta tolérance à la jalousie, à l'isolement et à la possessivité t'expose sérieusement à des relations toxiques.",
+        color: "from-red-400 to-orange-600",
         iconName: 'Lock',
-        minScore: 31,
-        maxScore: 45,
+        minScore: 48,
+        maxScore: 59,
         level: 'Toxique'
     },
     {
         id: 'vortex',
         title: "Le Vortex Noir",
-        description: "Danger. Tu es dans une situation de manipulation et de surveillance. Ta santé mentale est en jeu, il est temps de réagir.",
+        description: "Ton cœur est une porte grande ouverte pour les manipulateurs. Tu confonds dépendance et amour, contrôle et protection, jalousie et passion. C'est un appel à te recentrer sur toi-même — apprends à t'aimer avant d'aimer quelqu'un d'autre.",
         color: "from-gray-700 to-black",
         iconName: 'Tornado',
-        minScore: 46,
-        maxScore: 100, // High cap to catch everything
-        level: 'Dangereux'
+        minScore: 60,
+        maxScore: 100,
+        level: 'Trés Toxique'
     }
 ];
 
 export const getIcon = (name: string, className?: string) => {
     const props = { className: className || "w-6 h-6" };
     switch (name) {
+        case 'ShieldCheck': return <ShieldCheck {...props} />;
         case 'Sun': return <Sun {...props} />;
         case 'CloudFog': return <CloudFog {...props} />;
+        case 'Flame': return <Flame {...props} />;
         case 'Lock': return <Lock {...props} />;
         case 'Tornado': return <Tornado {...props} />;
         default: return <Sun {...props} />;
