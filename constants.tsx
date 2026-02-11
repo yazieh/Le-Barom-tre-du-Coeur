@@ -2,120 +2,160 @@ import React from 'react';
 import { QuestionMCQ, QuestionSpectrum, BadgeResult } from './types';
 import { Sun, CloudFog, Lock, Tornado } from 'lucide-react';
 
-export const PART1_QUESTIONS: QuestionMCQ[] = [
+export const READINESS_QUIZ: QuestionMCQ[] = [
   {
     id: 1,
-    question: "Ton/ta partenaire veut t'accompagner partout, même à tes rendez-vous personnels.",
+    question: "Pour toi, si un(e) partenaire veut te suivre partout, même avec tes amis, c'est...",
     options: [
-      { id: 'A', text: "C'est adorable, il/elle veut vraiment partager ma vie.", score: 0 },
-      { id: 'B', text: "Je me sens soutenu(e), c'est une preuve d'engagement.", score: 1 },
-      { id: 'C', text: "Ça m'étouffe un peu, j'ai besoin de mon propre espace.", score: 2 },
-      { id: 'D', text: "Je ne peux plus rien faire seul(e) sans qu'il/elle soit vexé(e).", score: 3 },
+      { id: 'A', text: "Une belle preuve d'amour et d'intérêt pour ma vie.", score: 3 }, // High tolerance for codependency
+      { id: 'B', text: "Normal au début d'une relation passionnée.", score: 2 },
+      { id: 'C', text: "Un peu excessif, j'aime garder un peu ma vie privée.", score: 1 },
+      { id: 'D', text: "Un signe d'insécurité qui me ferait fuir rapidement.", score: 0 },
     ],
   },
   {
     id: 2,
-    question: "Tu as passé une excellente soirée avec tes amis sans ton/ta partenaire.",
+    question: "Si ton/ta partenaire est fâché(e) parce que tu as passé une super soirée sans lui/elle dans le LOKA :",
     options: [
-      { id: 'A', text: "Il/Elle est ravi(e) pour moi et veut que je raconte les détails.", score: 0 },
-      { id: 'B', text: "Il/Elle fait semblant d'être content(e) mais me lance des piques après.", score: 2 },
-      { id: 'C', text: "Il/Elle m'a envoyé des messages toute la soirée pour savoir quand je rentrais.", score: 2 },
-      { id: 'D', text: "Il/Elle a eu un \"problème urgent\" pile au moment où je m'amusais.", score: 3 },
+      { id: 'A', text: "Je m'excuse et je promets de l'inviter la prochaine fois.", score: 3 },
+      { id: 'B', text: "Je me sens coupable d'avoir été heureux/se sans lui/elle.", score: 2 },
+      { id: 'C', text: "Je lui explique que j'ai besoin d'espace, mais je reste calme.", score: 1 },
+      { id: 'D', text: "Je trouve ce comportement infantile et inacceptable.", score: 0 },
     ],
   },
   {
     id: 3,
-    question: "Quand vous n'êtes pas d'accord sur un choix (film, restaurant, projet) :",
+    question: "Quand vous n'êtes pas d'accord sur un choix (un film, un restaurant, etc.) :",
     options: [
-      { id: 'A', text: "On discute et on finit par trouver un compromis.", score: 0 },
-      { id: 'B', text: "Je cède souvent parce que je déteste les conflits.", score: 1 },
-      { id: 'C', text: "Il/Elle finit toujours par me convaincre que son idée est la meilleure.", score: 2 },
-      { id: 'D', text: "Si je ne suis pas d'accord, l'ambiance devient glaciale pendant des heures.", score: 3 },
+      { id: 'A', text: "Je laisse l'autre choisir pour lui faire plaisir.", score: 3 },
+      { id: 'B', text: "Je finis par accepter pour éviter une dispute.", score: 2 },
+      { id: 'C', text: "On discute pour trouver une solution qui plaît aux deux.", score: 0 },
+      { id: 'D', text: "C'est souvent moi qui décide à la fin.", score: 1 },
     ],
   },
   {
     id: 4,
-    question: "Ton/ta partenaire fait une critique sur ton apparence juste avant de sortir.",
+    question: "Un(e) partenaire te suggère de changer de style car 'ça ne te met pas en valeur' :",
     options: [
-      { id: 'A', text: "C'est juste un conseil, je ne le prends pas mal.", score: 0 },
-      { id: 'B', text: "Il/Elle dit que c'est pour me \"protéger\" du regard des autres.", score: 2 },
-      { id: 'C', text: "Je finis par me changer car je perds confiance en moi.", score: 2 },
-      { id: 'D', text: "Il/Elle ne me complimente que quand je m'habille selon ses goûts.", score: 3 },
+      { id: 'A', text: "Je change tout de suite, il/elle veut sûrement mon bien.", score: 3 },
+      { id: 'B', text: "Je me remets en question et je perds un peu confiance en moi.", score: 2 },
+      { id: 'C', text: "Je l'écoute, mais je décide seul(e) de ce que je porte.", score: 1 },
+      { id: 'D', text: "Je lui dis que c'est à moi de décider comment je m'habille.", score: 0 },
     ],
   },
   {
     id: 5,
-    question: "À quelle fréquence dois-tu justifier tes dépenses ou ton emploi du temps ?",
+    question: "Pour toi, la 'transparence totale' (codes de téléphone, localisation) est :",
     options: [
-      { id: 'A', text: "Jamais, la confiance est totale entre nous.", score: 0 },
-      { id: 'B', text: "Rarement, seulement pour les grosses décisions communes.", score: 0 },
-      { id: 'C', text: "Souvent, il/elle dit qu'on doit être \"transparents\" sur tout.", score: 2 },
-      { id: 'D', text: "Tout le temps, je dois presque demander la permission pour tout.", score: 3 },
+      { id: 'A', text: "Indispensable pour prouver qu'on n'a rien à cacher.", score: 3 },
+      { id: 'B', text: "Une sécurité rassurante dans un couple moderne.", score: 2 },
+      { id: 'C', text: "Inutile si la confiance est déjà présente.", score: 0 },
+      { id: 'D', text: "Une intrusion grave dans la vie privée.", score: 0 },
     ],
   },
   {
     id: 6,
-    question: "Comment réagit-il/elle quand tu réussis quelque chose de mieux que lui/elle ?",
+    question: "Si tu réussis quelque chose d'important et que ton/ta partenaire est jaloux/se :",
     options: [
-      { id: 'A', text: "Il/Elle fête ça avec moi, c'est une joie partagée.", score: 0 },
-      { id: 'B', text: "Il/Elle sourit mais ramène tout de suite la conversation sur lui/elle.", score: 1 },
-      { id: 'C', text: "Il/Elle minimise mon succès : \"C'était facile, tout le monde peut le faire\".", score: 2 },
-      { id: 'D', text: "Il/Elle boude car ma réussite le/la rend insécure.", score: 3 },
+      { id: 'A', text: "Je ne parle pas de ma réussite pour ne pas le/la blesser.", score: 3 },
+      { id: 'B', text: "Je m'excuse d'en avoir trop fait.", score: 2 },
+      { id: 'C', text: "J'essaie de comprendre pourquoi il/elle manque de confiance.", score: 1 },
+      { id: 'D', text: "Je réalise qu'il/elle ne peut pas supporter mon bonheur.", score: 0 },
     ],
   },
   {
     id: 7,
-    question: "La notion de vie privée (Privacy) :",
+    question: "Ton futur partenaire te demande de moins voir un(e) ami(e) qu'il/elle n'aime pas :",
     options: [
-      { id: 'A', text: "On ne connaît pas nos codes de téléphone, c'est mon jardin secret.", score: 0 },
-      { id: 'B', text: "On a les codes \"au cas où\", mais on respecte l'intimité de l'autre.", score: 0 },
-      { id: 'C', text: "Il/Elle fouille parfois mon téléphone à cause de ses doutes.", score: 2 },
-      { id: 'D', text: "On partage tout, avoir un secret est vu comme une trahison.", score: 3 },
+      { id: 'A', text: "J'arrête de voir cet(te) ami(e) pour éviter les tensions.", score: 3 },
+      { id: 'B', text: "Je le/la vois en secret pour éviter les problèmes.", score: 2 },
+      { id: 'C', text: "Je demande des explications concrètes avant de décider.", score: 1 },
+      { id: 'D', text: "Mes amitiés sont importantes, personne ne choisit pour moi.", score: 0 },
     ],
   },
   {
     id: 8,
-    question: "Le partage des efforts :",
+    question: "L'argent dans le couple doit servir, selon toi, à :",
     options: [
-      { id: 'A', text: "On partage tout équitablement selon nos moyens.", score: 0 },
-      { id: 'B', text: "Il/Elle \"oublie\" souvent de s'investir ou de payer sa part.", score: 1 },
-      { id: 'C', text: "Il/Elle utilise l'argent ou les services comme un moyen de pression.", score: 2 },
-      { id: 'D', text: "Je me sens coupable de dépenser du temps ou de l'argent pour moi.", score: 3 },
+      { id: 'A', text: "Aider l'autre, même si je dois tout payer tout le temps.", score: 3 },
+      { id: 'B', text: "Montrer mon pouvoir ou ma générosité.", score: 2 },
+      { id: 'C', text: "Partager les dépenses selon ce que chacun gagne.", score: 0 },
+      { id: 'D', text: "Rester totalement indépendant pour ne dépendre de personne.", score: 0 },
     ],
   },
   {
     id: 9,
-    question: "Après une dispute, qui s'excuse le plus souvent ?",
+    question: "Après une dispute, qui doit s'excuser selon toi ?",
     options: [
-      { id: 'A', text: "On s'excuse tous les deux quand on reconnaît nos torts.", score: 0 },
-      { id: 'B', text: "Celui qui veut calmer le jeu plus vite, et c'est souvent moi.", score: 1 },
-      { id: 'C', text: "Je m'excuse même sans être fautif(ve), juste pour arrêter le conflit.", score: 2 },
-      { id: 'D', text: "Il/Elle ne s'excuse jamais, c'est toujours présenté comme \"ma faute\".", score: 3 },
+      { id: 'A', text: "C'est à moi de le faire à chaque fois pour calmer les choses.", score: 3 },
+      { id: 'B', text: "Je m'excuse même si ce n'est pas ma faute.", score: 2 },
+      { id: 'C', text: "On doit s'excuser tous les deux si on a fait une erreur.", score: 0 },
+      { id: 'D', text: "S'excuser en premier est un signe de faiblesse.", score: 1 },
     ],
   },
   {
     id: 10,
-    question: "\"Prioriser son partenaire\" :",
+    question: "Abandonner une passion pour passer plus de temps avec ton/ta partenaire :",
     options: [
-      { id: 'A', text: "C'est important, mais je garde mes propres passions.", score: 0 },
-      { id: 'B', text: "J'ai arrêté certaines activités pour passer plus de temps avec lui/elle.", score: 1 },
-      { id: 'C', text: "Mes amis me disent qu'ils ne me voient plus du tout.", score: 2 },
-      { id: 'D', text: "Je me sens mal si je fais une activité qui ne l'inclut pas.", score: 3 },
+      { id: 'A', text: "C'est normal, le couple est la seule priorité.", score: 3 },
+      { id: 'B', text: "C'est un sacrifice romantique que je suis prêt(e) à faire.", score: 2 },
+      { id: 'C', text: "Seulement si c'est temporaire.", score: 1 },
+      { id: 'D', text: "C'est inacceptable, j'ai besoin de mon équilibre personnel.", score: 0 },
     ],
   },
 ];
 
 export const PART2_QUESTIONS: QuestionSpectrum[] = [
-  { id: 1, leftLabel: "On s'encourage à évoluer séparément", rightLabel: "On veut que l'autre reste identique" },
-  { id: 2, leftLabel: "Les désaccords sont calmes et constructifs", rightLabel: "Les cris sont vus comme de la passion" },
-  { id: 3, leftLabel: "Je me sens libre de dire non", rightLabel: "Dire non déclenche une punition (silence)" },
-  { id: 4, leftLabel: "On respecte mon passé et mes amitiés", rightLabel: "Mon passé est utilisé contre moi" },
-  { id: 5, leftLabel: "Le temps de qualité est naturel et joyeux", rightLabel: "Le temps ensemble est une obligation" },
-  { id: 6, leftLabel: "Je me sens en sécurité émotionnelle", rightLabel: "Je surveille mes mots pour éviter une crise" },
-  { id: 7, leftLabel: "Il/Elle me pousse à donner le meilleur", rightLabel: "Il/Elle me fait croire que je suis nul(le) sans lui" },
-  { id: 8, leftLabel: "On partage sans compter les points", rightLabel: "Chaque faveur est une dette à rembourser" },
-  { id: 9, leftLabel: "La jalousie est absente ou discutée", rightLabel: "La jalousie est la preuve du vrai amour" },
-  { id: 10, leftLabel: "On rit ensemble de nos erreurs", rightLabel: "L'humour est souvent moqueur et blessant" },
+  {
+    id: 1,
+    leftLabel: "Pour moi, le couple doit me laisser ma liberté.",
+    rightLabel: "Pour moi, un couple doit tout faire ensemble, tout le temps."
+  },
+  {
+    id: 2,
+    leftLabel: "Je préfère une relation stable et tranquille.",
+    rightLabel: "J'ai besoin de sensations fortes et de passion, même si on se dispute."
+  },
+  {
+    id: 3,
+    leftLabel: "Si on s'aime, on doit se faire une confiance totale.",
+    rightLabel: "Si on s'aime, c'est normal de surveiller un peu l'autre."
+  },
+  {
+    id: 4,
+    leftLabel: "Ma vie privée est nécessaire pour mon équilibre.",
+    rightLabel: "Entre partenaires, on doit tout se dire, sans exception."
+  },
+  {
+    id: 5,
+    leftLabel: "Une dispute est un problème à régler ensemble.",
+    rightLabel: "Une dispute montre la force des sentiments."
+  },
+  {
+    id: 6,
+    leftLabel: "Je cherche quelqu'un qui m'encourage à voir mes amis.",
+    rightLabel: "Je cherche quelqu'un qui veut passer tout son temps avec moi."
+  },
+  {
+    id: 7,
+    leftLabel: "Il est important de garder ses propres opinions.",
+    rightLabel: "Je suis prêt(e) à changer mes idées pour plaire à l'autre."
+  },
+  {
+    id: 8,
+    leftLabel: "La jalousie est un signe d'insécurité.",
+    rightLabel: "La jalousie est une preuve qu'on tient vraiment à moi."
+  },
+  {
+    id: 9,
+    leftLabel: "Chacun doit être responsable de son propre bonheur.",
+    rightLabel: "Mon partenaire est le seul responsable de mon bonheur."
+  },
+  {
+    id: 10,
+    leftLabel: "On doit pouvoir se dire les choses honnêtement.",
+    rightLabel: "Il vaut mieux cacher certaines choses pour éviter les conflits."
+  },
 ];
 
 export const BADGES: BadgeResult[] = [

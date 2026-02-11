@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PART1_QUESTIONS, PART2_QUESTIONS, BADGES, getIcon } from './constants';
+import { READINESS_QUIZ, PART2_QUESTIONS, BADGES, getIcon } from './constants';
 import { Phase, BadgeResult } from './types';
 import { ProgressBar } from './components/ProgressBar';
 import { QuizMCQ } from './components/QuizMCQ';
@@ -37,7 +37,7 @@ function App() {
 
     // Slight delay to allow user to see selection
     setTimeout(() => {
-      if (currentQuestionIndex < PART1_QUESTIONS.length - 1) {
+      if (currentQuestionIndex < READINESS_QUIZ.length - 1) {
         setCurrentQuestionIndex(prev => prev + 1);
       } else {
         setPhase('intermission');
@@ -196,9 +196,9 @@ function App() {
   }
 
   if (phase === 'part1') {
-    const question = PART1_QUESTIONS[currentQuestionIndex];
+    const question = READINESS_QUIZ[currentQuestionIndex];
     return (
-      <BookLayout title="Chapitre I : L'Ombre et la Lumière" progressCurrent={currentQuestionIndex + 1} progressTotal={PART1_QUESTIONS.length}>
+      <BookLayout title="Chapitre I : L'Ombre et la Lumière" progressCurrent={currentQuestionIndex + 1} progressTotal={READINESS_QUIZ.length}>
         <QuizMCQ data={question} onAnswer={handleAnswerPart1} disabled={isTransitioning} />
       </BookLayout>
     );
