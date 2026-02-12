@@ -144,7 +144,7 @@ export const IntroCard: React.FC<IntroCardProps> = ({ onStart }) => {
                 className="mt-8 text-sm font-serif uppercase tracking-[0.2em] text-rose-800/70"
                 animate={{ opacity: holding ? 0.5 : 1 }}
             >
-                {holding ? "Connexion en cours..." : "Maintenez pour révéler la vérité"}
+                {holding ? "Connexion en cours..." : "Maintenez"}
             </motion.p>
 
         </div>
